@@ -58,6 +58,8 @@ const NavbarComponent = () => {
 
           </div>
           <div className=" flex">
+
+            {/* conditional rendering user logged in or not */}
             {loggedIn ? (
               <>
                 {/* <NavbarItem>

@@ -21,12 +21,12 @@ function App() {
   return (
     <>
       <Routes>
-        {/* <Route path="/" element={<Layout><Home /></Layout>} /> */}
-        <Route path="/vehiclelist" element={<Layout><Allvehicles /></Layout>} />
-        <Route path="/signup" element={<Layout><Signup /></Layout>} />
-        <Route path="/vehicle/:id" element={<Layout><VehicleDetail /></Layout>} />
-        <Route path="/signin" element={<Layout><SignIn /></Layout>} />
-        <Route path="/denied" element={<Layout><Denied /></Layout>} />
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        {/* <Route path="/vehiclelist" element={<Layout><Allvehicles /></Layout>} /> */}
+        {/* <Route path="/signup" element={<Layout><Signup /></Layout>} /> */}
+        {/* <Route path="/vehicle/:id" element={<Layout><VehicleDetail /></Layout>} /> */}
+        {/* <Route path="/signin" element={<Layout><SignIn /></Layout>} /> */}
+        {/* <Route path="/denied" element={<Layout><Denied /></Layout>} /> */}
 
 
         <Route element={<RoleLayout allowedRoles={["buyer","ADMIN"]} />}>
