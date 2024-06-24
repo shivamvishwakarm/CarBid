@@ -7,6 +7,8 @@ import img4 from '../assets/495528890e54b73580a5a2806034cba0.png';
 
 const WhyPeopleChooseUs = () => {
     return (
+        <div className='mx-10'>
+            <h2 className='mb-4 text-2xl font-semibold'>Why people choose us?</h2>
         <div className='flex flex-wrap gap-4 grid grid-cols-4 mb-5'>
             <Card className="py-4 w-full md:w-auto max-w-[330px] flex items-center justify-center">
                 <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -65,7 +67,11 @@ const WhyPeopleChooseUs = () => {
                 </CardBody>
             </Card>
         </div>
+        </div>
+
     );
 }
 
 export default WhyPeopleChooseUs;
+
+
