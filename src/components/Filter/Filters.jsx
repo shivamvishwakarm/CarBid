@@ -8,8 +8,28 @@ import TransmissionFilter from './TransmissionFilter.jsx';
 import PriceRangeSlider from './PriceRangeSlider.jsx';
 import DistanceFilter from './DistanceFilter.jsx';
 import { Button, Card, CardBody } from '@nextui-org/react';
+import { Accordion, AccordionItem } from "@nextui-org/react";
+
+
+const AddSVG = () => {
+
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 12H20" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M12 4L12 20" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+
+
+  )
+}
+
+
+
+
+
 
 const Filters = () => {
+
   const dispatch = useDispatch();
   const [filterCriteria, setFilterCriteria] = useState({
     vehicleType: [],
@@ -41,46 +61,60 @@ const Filters = () => {
     });
   };
 
-  return (
-    <Card radius='none' className="max-w-lg mx-auto">
-      <CardBody className="flex flex-wrap  justify-center">
-        <div className="flex justify-end w-full my-4">
-        
-          <div className='flex w-full items-center justify-between'>
-            <div className='text-blue-500 text-2xl font-semibold '>Filter</div>
-              <div type="button" onClick={clearFilters} className=" ">
-                Clear all
-              </div>
-          </div>
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Vehicle</h2>
-          <CarType filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Fuel Type</h2>
-          <FuleType filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Brands</h2>
-          <BrandsFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Transmission</h2>
-          <TransmissionFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Price Range</h2>
-          <PriceRangeSlider filterCriteria={filterCriteria} setFilter={setFilterCriteria} />
-        </div>
-        <div className="flex flex-col ">
-          <h2 className="font-bold">Distance Traveled</h2>
-          <DistanceFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
-        </div>
 
-      </CardBody>
+
+
+
+
+
+  return (
+    <Card radius='none' className="max-w-lg mx-auto m-4 p-4">
+      <div className='flex flex-row justify-between'>
+        <h2 className='text-primaryColor text-sm font-medium leading-6'> Filter</h2>
+        <p onClick={() => { clearFilters }} className='text-gray'>Clear all</p>
+      </div>
+
+      <Accordion defaultExpandedKeys={["2"]}>
+        <AccordionItem
+          key="1"
+          aria-label="Vehicle"
+          indicator={<AddSVG />}
+          title="Vehicle"
+        >
+          <CarType filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
+        </AccordionItem>
+
+        <AccordionItem key="2" aria-label="Fuel Type" indicator={<AddSVG />} title="Fuel Type">
+          <FuleType filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
+        </AccordionItem>
+
+        <AccordionItem key="3" aria-label="Brands" indicator={<AddSVG />} title="Brands">
+          <BrandsFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
+        </AccordionItem>
+
+        <AccordionItem key="4" aria-label="Transmission" indicator={<AddSVG />} title="Transmission">
+          <TransmissionFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
+        </AccordionItem>
+
+        <AccordionItem key="5" aria-label="Price Range" indicator={<AddSVG />} title="Price Range" >
+          <PriceRangeSlider filterCriteria={filterCriteria} setFilter={setFilterCriteria} />
+        </AccordionItem>
+
+        <AccordionItem key="6" aria-label="Distance Traveled" indicator={<AddSVG />} title="Distance Traveled">
+          <DistanceFilter filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} />
+        </AccordionItem>
+
+      </Accordion>
+
+
     </Card>
-  );
+  )
+
+
+
+
+
+
 };
 
 export default Filters;
