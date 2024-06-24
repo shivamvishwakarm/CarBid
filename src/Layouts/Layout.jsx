@@ -1,20 +1,21 @@
-import React from 'react';
 import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
+import PropTypes from 'prop-types';
+import Exploreby from '../components/Exploreby'
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col w-full">
-    <div className='w-full'>
-    <NavbarComponent />
-
-    </div>
-      <div className="flex-grow  w-full ">
+    <>
+        <NavbarComponent />
+        <Exploreby/>
         {children}
-      </div>
-      <Footer />
-    </div>
+        <Footer />
+      </>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;
