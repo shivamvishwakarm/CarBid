@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllVehicles } from '../Redux/vehicleSlice.js';
 import { Card, Skeleton } from '@nextui-org/react';
@@ -6,8 +6,11 @@ import VehicleCard from './Card/VehicleCard.jsx';
 
 const VehicleList = () => {
     const dispatch = useDispatch();
-    const vehicles = useSelector((state) => state.vehicle.vehicles) || [];
-    const loading = useSelector((state) => state.vehicle.loading);
+    const vehicles = useSelector((state) => state.vehicle.vehicles) || [];  
+    const loading = useSelector((state) => state.vehicle.loading); 
+
+    
+
     const uId = useSelector((state) => state.auth.data.uid);
 
     useEffect(() => {
@@ -43,6 +46,7 @@ const VehicleList = () => {
                         const endDate = vehicle.endTime.toDate();
                         const currentTime = new Date();
                         const timeDifference = endDate - currentTime;
+                  
 
                         if (timeDifference > 0 &&
                             vehicle.adminApprove === 'ACCEPT' &&

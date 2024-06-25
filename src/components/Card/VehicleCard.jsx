@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardBody, Button, Image, Divider, ModalBody, ModalFooter } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
+import { Card, CardBody, Button, Image, ModalBody, ModalFooter } from "@nextui-org/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIfVehicleLiked, deleteVehicle, toggleVehicleLike } from '../../Redux/vehicleSlice';
 import { useNavigate } from "react-router-dom";
@@ -10,8 +11,17 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
 import Clock from '../Clock';
 
+
+
+
+
+
+
+
+
+
 const VehicleCard = ({ vehicle, isonListed = false, isonMyBid = false, MyBidAmount = null, bids = null }) => {
-  const { id, make, model, vehiclePhotos, brand, fuelType, transmission, distanceTraveled } = vehicle;
+  const { id, make, model, vehiclePhotos, fuelType, transmission, distanceTraveled } = vehicle;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
@@ -78,9 +88,10 @@ console.log(vehicle);
       <Modal isOpen={isOpen} onClose={onClose}>
         {renderModalContent()}
       </Modal>
+      
       <Card shadow="dark-lg" className="w-[300px] flex flex-col rounded-xl overflow-hidden">
-        <div className="relative h-48 overflow-hidden">
-          <div className="absolute z-10 top-2 left-2 bg-gray-800 bg-opacity-75 text-white rounded-md px-2 py-1 text-sm">
+            <div className="relative h-48 overflow-hidden">
+          <div className="relative z-10 top-2 right-4 bg-gray-800 bg-opacity-75 text-white rounded-md px-2 py-1 text-sm">
             <Clock vehicle={vehicle} />
           </div>
           <Image radius="none" alt={`${make} ${model}`} src={vehiclePhotos} className="object-cover w-full h-full z-0" />
@@ -91,21 +102,22 @@ console.log(vehicle);
             {isLiked ? <FaHeart /> : <FaRegHeart />}
           </div>
         </div>
-        <div className="px-4 text-gray-600 text-sm mb-2">
-          {fuelType} • {transmission} • {distanceTraveled}km
+        <div className="px-4 text-gray-600 text-sm mb-2 mt-2  text-gray">
+         <span className='mx-1'>{fuelType}</span>  • <span className='mx-1'>{transmission}</span>  • <span className='mx-1'>{distanceTraveled}km</span>
         </div>
-        <Divider />
-        <div className="px-4 text-gray-600 text-sm mb-2">
-          <span className="font-semibold">Brand:</span> {brand}
-        </div>
+     
+       
         <CardBody className="flex flex-col px-4 pb-4">
-          <div className="flex items-center justify-between text-lg font-bold">
-            <div>{isonMyBid ? `${MyBidAmount}L` : `${startingBid}L`}</div>
-            <div className="text-sm text-gray-500">{isonMyBid ? 'Your Bid' : 'Starting bid'}</div>
+          <div className="flex flex-row justify-between">
+          
+          <div className="flex flex-col justify-between text-lg  mt-2">
+            <div className="font-bold">{highestBid}L</div>
+            <div className="text-sm text-gray">Current bid</div>
           </div>
-          <div className="flex justify-between text-lg font-bold text-blue-600 mt-2">
-            <div>{highestBid}L</div>
-            <div className="text-sm text-gray-500">Current bid</div>
+          <div className="flex flex-col items-start i justify-between text-lg ">
+            <div className="font-bold">{isonMyBid ? `${MyBidAmount}L` : `${startingBid}L`}</div>
+            <div className="text-sm text-gray">{isonMyBid ? 'Your Bid' : 'Starting bid'}</div>
+          </div>
           </div>
           <div className="flex justify-between mt-4">
             {isonListed ? (
@@ -123,11 +135,12 @@ console.log(vehicle);
               </>
             ) : (
               <>
-                <Button variant="outlined" color="primary" onClick={handleViewDetailClick} className="flex-grow mr-2 bg-blue-600 text-white">
-                  View details
-                </Button>
-                <Button variant="outlined" color="primary" className="flex-grow bg-blue-600 text-white">
+               
+                <Button variant="bordered" color="primary" className="flex-grow border-1  border-blue-600  mr-2">
                   Book test drive
+                </Button>
+                <Button variant="solid" color="primary" onClick={handleViewDetailClick} className="flex-grow  bg-blue-600 ml-2">
+                  View details
                 </Button>
               </>
             )}
@@ -139,3 +152,17 @@ console.log(vehicle);
 };
 
 export default VehicleCard;
+
+
+
+
+// Prop validation
+
+VehicleCard.propTypes = {
+  vehicle: PropTypes.object.isRequired,
+  isonListed: PropTypes.bool,
+  isonMyBid: PropTypes.bool,
+  MyBidAmount: PropTypes.number,
+  bids: PropTypes.array,
+};
+
