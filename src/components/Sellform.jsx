@@ -31,7 +31,7 @@ const Sellform = () => {
       <Card className="py-4 mt-4 sm:max-w-screen-lg">
         <CardHeader className="pb-0 pt-2 px-4 flex flex-col items-start">
           {/* <div className='my-6 font-bold text-2xl text-center sm:text-left'>Add Vehicle to Auction</div> */}
-          <SimpleVehicleForm  />
+          <SimpleVehicleForm className="w-full"  />
         </CardHeader>
       </Card>
 

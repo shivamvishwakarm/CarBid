@@ -19,141 +19,141 @@ import b10 from '../assets/dd574ce9ae4551ed764f80ff3e7addc1.png';
 import toast from 'react-hot-toast';
 import useBrands from '../hooks/useBrands.jsx';
 
-  const SimpleVehicleForm = ({  }) => {
-    const dispatch = useDispatch();
-    const currentUser = useSelector((state) => state.auth.data.uid);
-    const [isLoading, setisLoding] = useState(false);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+const SimpleVehicleForm = ({ }) => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.data.uid);
+  const [isLoading, setisLoding] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [photoPreviews, setPhotoPreviews] = useState([]);
-    const [idPreviews, setidPreviews] = useState();
-    const [formDisabled, setFormDisabled] = useState(false);
-    const [idProof, setIdProof] = useState('');
-    const [vehiclePhotos, setVehiclePhotos] = useState([]);
-    const [stage, setStage] = useState(1);
-    const [formData, setFormData] = useState({
-      sellerType: 'individual',
-      name: '',
-      mobile: '',
-      address: '',
-      registrationYear: '',
-      brand: '',
-      model: '',
-      travelDistance: 0,
-      transmission: '',
-      ownerType: '',
-      carLocation: '',
-      modification: '',
-      'modificationDetails': '',
-      pickupLocation: '',
-      dealershipName: '',
-      website: '',
-      city: '',
-      vehicleType: 'car',
-      'fuelType': 'petrol'
-    });
+  const [photoPreviews, setPhotoPreviews] = useState([]);
+  const [idPreviews, setidPreviews] = useState();
+  const [formDisabled, setFormDisabled] = useState(false);
+  const [idProof, setIdProof] = useState('');
+  const [vehiclePhotos, setVehiclePhotos] = useState([]);
+  const [stage, setStage] = useState(1);
+  const [formData, setFormData] = useState({
+    sellerType: 'individual',
+    name: '',
+    mobile: '',
+    address: '',
+    registrationYear: '',
+    brand: '',
+    model: '',
+    travelDistance: 0,
+    transmission: '',
+    ownerType: '',
+    carLocation: '',
+    modification: '',
+    'modificationDetails': '',
+    pickupLocation: '',
+    dealershipName: '',
+    website: '',
+    city: '',
+    vehicleType: 'car',
+    'fuelType': 'petrol'
+  });
 
 
-    const brands = useBrands();
-    const models = useBrandModels(formData.brand);
+  const brands = useBrands();
+  const models = useBrandModels(formData.brand);
 
-    const handlepickup = (e) => {
-      if (e.target.checked) {
-        setFormData({ ...formData, pickupLocation: formData.carLocation });
-      } else {
-        setFormData({ ...formData, pickupLocation: '' });
-      }
+  const handlepickup = (e) => {
+    if (e.target.checked) {
+      setFormData({ ...formData, pickupLocation: formData.carLocation });
+    } else {
+      setFormData({ ...formData, pickupLocation: '' });
     }
+  }
 
-    const handlePhotoUpload = (files) => {
-      const photoFiles = Array.from(files);
-      setVehiclePhotos(photoFiles);
-      const previews = photoFiles.map((file) => URL.createObjectURL(file));
-      setPhotoPreviews(previews);
-    };
-    const handelIdproof = (files) => {
-      setIdProof(files);
-      const previews = URL.createObjectURL(files);
-      setidPreviews(previews);
+  const handlePhotoUpload = (files) => {
+    const photoFiles = Array.from(files);
+    setVehiclePhotos(photoFiles);
+    const previews = photoFiles.map((file) => URL.createObjectURL(file));
+    setPhotoPreviews(previews);
+  };
+  const handelIdproof = (files) => {
+    setIdProof(files);
+    const previews = URL.createObjectURL(files);
+    setidPreviews(previews);
 
 
-    };
+  };
 
-    const handleSubmit = async (e) => {
-      setisLoding(true);
-      e.preventDefault();
-      try {
-        const missingFields = [];
-        if (!formData.address) missingFields.push('Address');
-        if (!formData.brand) missingFields.push('Brand');
-        if (!formData.carLocation) missingFields.push('Car Location');
-        if (!formData.mobile) missingFields.push('Mobile');
-        if (!formData.model) missingFields.push('Model');
-        if (!formData.modification) missingFields.push('Modification');
-        if (!formData.name) missingFields.push('Name');
-        if (!formData.ownerType) missingFields.push('Owner Type');
-        if (!formData.pickupLocation) missingFields.push('Pickup Location');
-        if (!formData.registrationYear) missingFields.push('Registration Year');
-        if (!formData.sellerType) missingFields.push('Seller Type');
-        if (!formData.transmission) missingFields.push('Transmission');
-        if (!formData.travelDistance) missingFields.push('Travel Distance');
-        if (!idProof) missingFields.push('ID Proof');
-        if (!formData.vehicleType) missingFields.push('vehicleType');
-        if (!formData.fuelType) missingFields.push('fuelType');
-        if (!formData.city) missingFields.push('city');
-        if (vehiclePhotos.length === 0) missingFields.push('Vehicle Photos');
+  const handleSubmit = async (e) => {
+    setisLoding(true);
+    e.preventDefault();
+    try {
+      const missingFields = [];
+      if (!formData.address) missingFields.push('Address');
+      if (!formData.brand) missingFields.push('Brand');
+      if (!formData.carLocation) missingFields.push('Car Location');
+      if (!formData.mobile) missingFields.push('Mobile');
+      if (!formData.model) missingFields.push('Model');
+      if (!formData.modification) missingFields.push('Modification');
+      if (!formData.name) missingFields.push('Name');
+      if (!formData.ownerType) missingFields.push('Owner Type');
+      if (!formData.pickupLocation) missingFields.push('Pickup Location');
+      if (!formData.registrationYear) missingFields.push('Registration Year');
+      if (!formData.sellerType) missingFields.push('Seller Type');
+      if (!formData.transmission) missingFields.push('Transmission');
+      if (!formData.travelDistance) missingFields.push('Travel Distance');
+      if (!idProof) missingFields.push('ID Proof');
+      if (!formData.vehicleType) missingFields.push('vehicleType');
+      if (!formData.fuelType) missingFields.push('fuelType');
+      if (!formData.city) missingFields.push('city');
+      if (vehiclePhotos.length === 0) missingFields.push('Vehicle Photos');
 
-        if (formData.sellerType === 'dealer') {
-          if (!formData.dealershipName) missingFields.push('Dealership Name');
-          if (!formData.salesRange) missingFields.push('Sales Range');
-        }
-
-        if (missingFields.length > 0) {
-          const missingFieldsString = missingFields.join(', ');
-          toast.error(`Please fill all required fields: ${missingFieldsString}`);
-          return;
-        }
-
-        await dispatch(submitVehicleDetails({
-          vehicleData: formData,
-          vehiclePhotos,
-          userId: currentUser,
-          idProof,
-          stage
-        }));
-
-        setFormData({
-          sellerType: 'individual',
-          name: '',
-          mobile: '',
-          address: '',
-          registrationYear: '',
-          brand: '',
-          model: '',
-          travelDistance: '',
-          transmission: '',
-          ownerType: '',
-          carLocation: '',
-          modification: '',
-          pickupLocation: '',
-          dealershipName: '',
-          website: '',
-          city: '',
-          'fuelType': 'petrol',
-          'vehicleType': 'car'
-        });
-        setVehiclePhotos([])
-        setIdProof('')
-        setidPreviews('')
-        setStage(1);
-        onClose();
-        window.location.reload();
-      } catch (error) {
-        console.error('Error submitting vehicle details:', error.message);
-      } finally {
-        setisLoding(false);
+      if (formData.sellerType === 'dealer') {
+        if (!formData.dealershipName) missingFields.push('Dealership Name');
+        if (!formData.salesRange) missingFields.push('Sales Range');
       }
-    };
+
+      if (missingFields.length > 0) {
+        const missingFieldsString = missingFields.join(', ');
+        toast.error(`Please fill all required fields: ${missingFieldsString}`);
+        return;
+      }
+
+      await dispatch(submitVehicleDetails({
+        vehicleData: formData,
+        vehiclePhotos,
+        userId: currentUser,
+        idProof,
+        stage
+      }));
+
+      setFormData({
+        sellerType: 'individual',
+        name: '',
+        mobile: '',
+        address: '',
+        registrationYear: '',
+        brand: '',
+        model: '',
+        travelDistance: '',
+        transmission: '',
+        ownerType: '',
+        carLocation: '',
+        modification: '',
+        pickupLocation: '',
+        dealershipName: '',
+        website: '',
+        city: '',
+        'fuelType': 'petrol',
+        'vehicleType': 'car'
+      });
+      setVehiclePhotos([])
+      setIdProof('')
+      setidPreviews('')
+      setStage(1);
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error submitting vehicle details:', error.message);
+    } finally {
+      setisLoding(false);
+    }
+  };
 
 
   const renderStage = () => {
@@ -474,6 +474,7 @@ import useBrands from '../hooks/useBrands.jsx';
             <div className="flex mt-2">
               {photoPreviews.map((preview, index) => (
                 <Image
+                  key={index}
                   src={preview}
                   alt={`Preview ${index + 1}`}
                   className="w-20 h-20 object-cover rounded-md mr-2"
@@ -509,29 +510,29 @@ import useBrands from '../hooks/useBrands.jsx';
 
   return (
     <>
-     <div className="flex flex-col items-center justify-center max-h-screen  ">
-      {/* <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-xl "> */}
-        <h2 className="text-xl font-semibold mb-4">Sell your vehicle</h2>
+      <div className="flex flex-col justify-center max-h-screen  ">
+        {/* <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-xl "> */}
+        <h2 className="text-xl  mb-4 ">Sell your vehicle</h2>
         <div className="flex space-x-2 mb-6">
           <Input
             className="flex-1"
             placeholder="Vehicle number"
           />
           <Button
-            className="bg-blue-600 text-white"
-            onPress={onOpen} 
+            className="bg-blue-400  text-white hover: bg-blue-600"
+            onPress={onOpen}
           >
             Search vehicle
           </Button>
         </div>
         <div className="flex items-center mb-4">
-          <div className="flex-grow h-px bg-gray-300"></div>
-          <span className="px-2 text-gray-500">or</span>
-          <div className="flex-grow h-px bg-gray-300"></div>
-        </div>
-        <p className="text-center mb-4">Start with a brand</p>
-        <div className="grid grid-cols-3 gap-4">
-          {[b1,b2,b3,b4,b5,b6,b7,b8].map((brand, index) => (
+  <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
+  <span className="px-2" style={{ color: '#DFDFDF' }}>or</span>
+  <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
+</div>
+        <p className=" mb-4">Start with a brand</p>
+        <div className="grid grid-cols-4 gap-4">
+          {[b1, b2, b3, b4, b5, b6, b7, b8].map((brand, index) => (
             <button
               key={index}
               className="flex items-center justify-center p-4 border rounded-lg hover:shadow-md transition"
@@ -541,12 +542,12 @@ import useBrands from '../hooks/useBrands.jsx';
                 alt={brand}
                 className="h-8"
               />
-              
+
             </button>
           ))}
         </div>
       </div>
-    {/* </div> */}
+      {/* </div> */}
       {/* <Button className='font-bold bg-blue-600 text-white' onPress={onOpen} disabled={formDisabled}>Add Vehicle</Button> */}
       <Modal size='2xl' isOpen={isOpen} onOpenChange={onClose}>
         <ModalContent>
