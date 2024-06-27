@@ -1,6 +1,7 @@
 import { Image } from '@nextui-org/react';
 import React from 'react';
 import WhyPeopleChooseUs from '../components/WhyPeopleChooseUs';
+import HowToSell from '../components/HowToSell';
 import Sellform from '../components/Sellform';
 import sellimg from '../assets/d0202be409abd6ce3bc3cb03884c56e7.jpg'
 
@@ -21,6 +22,7 @@ const SellDashboard = () => {
       </div>
 
       <div className='flex-1'>
+        <HowToSell/>
         <WhyPeopleChooseUs />
       </div>
     </div>
