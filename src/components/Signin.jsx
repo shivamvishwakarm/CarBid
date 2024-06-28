@@ -3,12 +3,19 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { login } from '../Redux/authSlice.js'; // Update import
-import { Button } from '@nextui-org/react';
+import {Modal, ModalContent, Button,Input, useDisclosure} from "@nextui-org/react";
+import SignUp from './Signup.jsx';
+import { StyledEngineProvider } from '@mui/material/styles';
+
+
+
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false); // State for loading indicator
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +27,9 @@ const SignIn = () => {
     try {
       const res = await dispatch(login({ email, password }));
       console.log(res);
-      navigate('/buyvehicle'); // Redirect on successful login
+      toast.success('Login successful!'); // Show success toast
+      onOpenChange(); // close the modal
+      navigate('/'); // Redirect on successful login
     } catch (error) {
       setError('Login failed. Please check your credentials and try again.');
       toast.error('Login failed. Please check your credentials and try again.'); // Show error toast
@@ -29,26 +38,31 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <StyledEngineProvider injectFirst>
+
+    <button onClick={onOpen}>Login</button>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>   
+           <ModalContent>
+           {(onClose) => (
       <div className="max-w-md w-full bg-white p-8 border border-gray-200 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-4 text-blue-500 text-center">Sign In</h2>
+        <h2 className="text-2xl font-semibold mb-4 ">Login/register</h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <div className="mb-4">
-          <input
+          <Input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border rounded px-4 py-2 w-full"
+            className=" "
           />
         </div>
         <div className="mb-4">
-          <input
+          <Input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border rounded px-4 py-2 w-full"
+            className=" w-full"
           />
         </div>
         {isLoading ? (
@@ -65,15 +79,19 @@ const SignIn = () => {
             </button>
           )}
         <div className="mt-4 text-center">
-          <p>
+          <p className='underline underline-offset-1'>
             Don't have an account?{' '}
-            <Link to="/signup" className="text-blue-500 hover:text-blue-700">
-              Sign Up
-            </Link>
+        
+
+            <SignUp />
+        
           </p>
         </div>
       </div>
-    </div>
+  )}
+  </ModalContent>
+</Modal>
+</StyledEngineProvider>
   );
 };
 

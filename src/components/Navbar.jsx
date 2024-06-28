@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Avatar, NavbarMenuToggle,Image } from "@nextui-org/react";
+import { useState } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Avatar, NavbarMenuToggle, Image } from "@nextui-org/react";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../Redux/authSlice';
 import SearchByCity from '../components/SearchByCity';
-import logo from '../assets/logo/WhatsApp Image 2024-06-16 at 16.23.49_d16d42f4.jpg'
+import Logo from './Utility/Logo'  // Logo component
 // import { PiCarProfile } from "react-icons/pi";
 import { GoPersonFill } from "react-icons/go";
+import SignUp from './Signup';
+import SignIn from './Signin';
+
 
 
 const NavbarComponent = () => {
   const loggedIn = useSelector(state => state.auth.isLoggedIn);
+  console.log(loggedIn);
   const profilePic = useSelector(state => state.auth.data.profilePicURL);
   const city = useSelector(state => state.vehicle.city);
   const dispatch = useDispatch();
@@ -36,10 +40,9 @@ const NavbarComponent = () => {
       <NavbarContent className="w-full" >
         <div className=" flex items-center justify-between w-full">
           <div className="flex pr-5 items-center">
-            <NavbarItem className="logo mr-4">
-              <Image width={50} height={50} src={logo}/>
-              
-            </NavbarItem>
+         
+             <Logo/>
+ 
             {/* <NavbarItem>
           <Link className="text-blue-600 mr-4 font-bold hover:underline focus:underline" color="foreground" href="/buyvehicle">
             Buy
@@ -57,7 +60,7 @@ const NavbarComponent = () => {
             </NavbarItem>
 
           </div>
-          <div className=" flex">
+          <div className="flex">
 
             {/* conditional rendering user logged in or not */}
             {loggedIn ? (
@@ -84,15 +87,17 @@ const NavbarComponent = () => {
               </>
             ) : (
               <>
-                <NavbarItem>
-                  <Link className="text-blue-600 font-semibold hover:underline focus:underline" color="foreground" href="/signin">
-                    Login
-                  </Link>
+                <NavbarItem className="mx-2 border border-blue-700 rounded-md px-4 py-2 text-blue-700 hover:text-blue-500">
+               
+
+                  <SignIn/>
+              
                 </NavbarItem>
-                <NavbarItem>
-                  <Link className="text-blue-600 font-semibold hover:underline focus:underline" color="foreground" href="/signup">
-                    Sign Up
-                  </Link>
+                <NavbarItem className="mx-2  rounded-md px-4 py-2 text-white bg-blue-700 hover:bg-blue-500">
+              
+
+                  <SignUp/> {/* Signup component and it's modal */}
+     
                 </NavbarItem>
               </>
             )}
@@ -105,3 +110,5 @@ const NavbarComponent = () => {
 };
 
 export default NavbarComponent;
+
+
