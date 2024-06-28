@@ -30,37 +30,44 @@ const NavbarComponent = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className=" w-full">
-      <Navbar shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} className="w-full">
-      <NavbarMenuToggle
-        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        className="sm:hidden w-full"
-      />
-
-      <NavbarContent className="w-full" >
-        <div className=" flex items-center justify-between w-full">
-          <div className="flex pr-5 items-center">
+      // Global css is affecting this nav
+      <Navbar shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} className=" mx-2"       classNames={{
+        item: [
+          "flex",
+          "relative",
+          "h-full",
          
-             <Logo/>
- 
+        ],
+      }} >
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden border-2 border-black"
+        />
+
+        <NavbarContent className="flex items-center" >
+          <div className=" flex items-center ">
+
+
+            <Logo />
+
             {/* <NavbarItem>
-          <Link className="text-blue-600 mr-4 font-bold hover:underline focus:underline" color="foreground" href="/buyvehicle">
-            Buy
-          </Link>
-        </NavbarItem> */}
-            <NavbarItem>
-              <Link className="text-gray-600 mr-4 font-semibold " color="foreground" href="/vehiclelist">
+              <Link className="text-blue-600 mr-4 font-bold hover:underline focus:underline" color="foreground" href="/buyvehicle">
+                Buy
+              </Link>
+            </NavbarItem> */}
+            <NavbarItem isActive>
+              <Link className='mx-2' aria-current="page" href="/vehiclelist">
                 Buy
               </Link>
             </NavbarItem>
             <NavbarItem>
-              <Link className="text-gray-600 mr-4 font-semibold " color="foreground" href="/sellvehicle">
+              <Link className="mx-2 " color="foreground" href="/sellvehicle">
                 Sell
               </Link>
             </NavbarItem>
-
           </div>
-          <div className="flex">
+          <NavbarContent className="flex items-center" />
+          <div className="flex ">
 
             {/* conditional rendering user logged in or not */}
             {loggedIn ? (
@@ -70,7 +77,7 @@ const NavbarComponent = () => {
                 My Vehicles
               </Link>
             </NavbarItem> */}
-                <NavbarItem>
+                <NavbarItem className='mx-2'>
                   <SearchByCity />
                 </NavbarItem>
                 <NavbarItem>
@@ -88,24 +95,24 @@ const NavbarComponent = () => {
             ) : (
               <>
                 <NavbarItem className="mx-2 border border-blue-700 rounded-md px-4 py-2 text-blue-700 hover:text-blue-500">
-               
 
-                  <SignIn/>
-              
+
+                  <SignIn />
+
                 </NavbarItem>
                 <NavbarItem className="mx-2  rounded-md px-4 py-2 text-white bg-blue-700 hover:bg-blue-500">
-              
 
-                  <SignUp/> {/* Signup component and it's modal */}
-     
+
+                  <SignUp /> {/* Signup component and it's modal */}
+
                 </NavbarItem>
               </>
             )}
           </div>
-        </div>
-      </NavbarContent>
-    </Navbar>
-    </div>
+        </NavbarContent>
+
+      </Navbar>
+ 
   );
 };
 
