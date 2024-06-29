@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitVehicleDetails } from '../Redux/vehicleSlice.js';
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Radio, RadioGroup, Input, Divider, Checkbox, ScrollShadow, Image } from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Radio, RadioGroup, Input, Divider, Checkbox, Image } from '@nextui-org/react';
 import LoadingButton from './LoadingButton ';
 import useBrandModels from '../hooks/useBrandModels.jsx';
 import b1 from '../assets/374c24fdbbb811e3fe494f27ae695992.png';
@@ -14,7 +14,7 @@ import b7 from '../assets/bc3d6ddc5983ce11ad42ba78b28716ca.png';
 import b8 from '../assets/c3e37bcf2700ab5e993594e2e31f0852.png';
 import b9 from '../assets/d0202be409abd6ce3bc3cb03884c56e7.jpg';
 import b10 from '../assets/dd574ce9ae4551ed764f80ff3e7addc1.png';
-
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 // upload icon
@@ -521,32 +521,51 @@ const SimpleVehicleForm = () => {
       case 4:
         return (
           <div>
-          <h2 className="font-bold">Terms and conditions</h2>
-        
-          <p className='pt-4'>
-            {/* write terms and conditions content */}
-            By using this service, you agree to the following terms and conditions:
-            <ol>
-              <li>1. You must ensure that all information provided about your vehicle is accurate and truthful.</li>
-              <li>2. Any modifications or alterations to the vehicle must be disclosed prior to the evaluation.</li>
-              <li>3. The service reserves the right to modify or terminate services at any time without notice.</li>
-              <li>4. All evaluations are subject to change based on further inspection and market conditions.</li>
-              <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-            </ol>
-            Please read these terms carefully before proceeding.
-          </p>
-        
-          <div className="flex items-center mt-4">
-            <input
-              id="agreeTerms"
-              type="checkbox"
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="agreeTerms" className="ml-2 block text-sm text-gray-900">
-              I agree to the terms and conditions
-            </label>
+            <div>
+              <ScrollShadow className=" h-[400px]">
+              <h2 className="font-bold">Terms and conditions</h2>
+              <p className='pt-4'>
+                {/* write terms and conditions content */}
+                By using this service, you agree to the following terms and conditions:
+                <ol>
+                  <li>1. You must ensure that all information provided about your vehicle is accurate and truthful.</li>
+                  <li>2. Any modifications or alterations to the vehicle must be disclosed prior to the evaluation.</li>
+                  <li>3. The service reserves the right to modify or terminate services at any time without notice.</li>
+                  <li>4. All evaluations are subject to change based on further inspection and market conditions.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+                </ol>
+                Please read these terms carefully before proceeding.
+              </p>
+              </ScrollShadow>
+            </div>
+            
+            <div className="flex items-center mt-4">
+              <input
+                id="agreeTerms"
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="agreeTerms" className="ml-2 block text-sm text-gray-900">
+                I agree to the terms and conditions
+              </label>
+            </div>
           </div>
-        </div>
+         
         );
 
     }
