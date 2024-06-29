@@ -14,38 +14,38 @@ const initialState = {
 };
 
 
-export const createAccount = createAsyncThunk("/auth/signup", async ({ email, password, name, role, profilePic }) => {
-    try {
+export const createAccount = createAsyncThunk(
+    "/auth/signup",
+    async ({ email, password, name, role, profilePic }, { rejectWithValue }) => {
+      try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
         let profilePicURL = null;
+  
         if (profilePic) {
-            const profilePicRef = ref(storage, `profile_pics/${userCredential.user.uid}`);
-            const snapshot = await uploadBytes(profilePicRef, profilePic);
-            profilePicURL = await getDownloadURL(snapshot.ref);
+          const profilePicRef = ref(storage, `profile_pics/${userCredential.user.uid}`);
+          const snapshot = await uploadBytes(profilePicRef, profilePic);
+          profilePicURL = await getDownloadURL(snapshot.ref);
         }
-
+  
         await setDoc(doc(db, 'users', userCredential.user.uid), {
-            name: name,
-            role: role,
-            email:email,
-            profilePicURL: profilePicURL
+          name: name,
+          role: role,
+          email: email,
+          profilePicURL: profilePicURL
         });
-
-
-        userCredential.user.displayName = name;
-
-        return {
-            user: userCredential.user,
-            name: name,
-            email: email,
-            role: role,
-            profilePicURL: profilePicURL
-        };
-    } catch (error) {
-        throw error;
+  
+        // Optionally, return some user data or success message
+        return { uid: userCredential.user.uid, email, name, role, profilePicURL };
+      } catch (error) {
+        // Log the error for debugging purposes
+        console.error("Error creating account:", error);
+  
+        // Reject the value with a custom error message or error object
+        // This allows to handle specific error messages in your component
+        return rejectWithValue(error.message || "An error occurred during account creation.");
+      }
     }
-});
+  );
 
 
 
@@ -53,80 +53,63 @@ export const createAccount = createAsyncThunk("/auth/signup", async ({ email, pa
 export const updateProfile = createAsyncThunk(
     '/auth/updateProfile',
     async ({ uid, name, role, profilePic }) => {
-        try {
-            console.log(uid, name, role, profilePic);
-            const userDocRef = doc(db, 'users', uid);
-            let profilePicURL = null;
+        console.log(uid, name, role, profilePic);
+        const userDocRef = doc(db, 'users', uid);
+        let profilePicURL = null;
 
-            const userDocSnap = await getDoc(userDocRef);
-            if (!userDocSnap.exists()) {
-                throw new Error('User not found');
-            }
-
-            const userData = userDocSnap.data();
-
-            if (profilePic) {
-                const profilePicRef = ref(storage, `profile_pics/${uid}`);
-                const snapshot = await uploadBytes(profilePicRef, profilePic);
-                profilePicURL = await getDownloadURL(snapshot.ref);
-            }
-
-            const updateData = { name, role };
-            if (profilePicURL) updateData.profilePicURL = profilePicURL;
-
-            await updateDoc(userDocRef, updateData);
-
-            return { uid, name, role, profilePicURL };
-        } catch (error) {
-            throw error;
+        const userDocSnap = await getDoc(userDocRef);
+        if (!userDocSnap.exists()) {
+            throw new Error('User not found');
         }
+
+        if (profilePic) {
+            const profilePicRef = ref(storage, `profile_pics/${uid}`);
+            const snapshot = await uploadBytes(profilePicRef, profilePic);
+            profilePicURL = await getDownloadURL(snapshot.ref);
+        }
+
+        const updateData = { name, role };
+        if (profilePicURL) updateData.profilePicURL = profilePicURL;
+
+        await updateDoc(userDocRef, updateData);
+
+        return { uid, name, role, profilePicURL };
     }
 );
 
 
 
 export const getProfile = createAsyncThunk('/auth/getProfile', async (uid) => {
-    try {
-        const userDocRef = doc(db, 'users', uid);
-        const userDocSnap = await getDoc(userDocRef);
+    const userDocRef = doc(db, 'users', uid);
+    const userDocSnap = await getDoc(userDocRef);
 
-        if (userDocSnap.exists()) {
-            return userDocSnap.data();
-        } else {
-            throw new Error("User not found");
-        }
-    } catch (error) {
-        throw error;
+    if (userDocSnap.exists()) {
+        return userDocSnap.data();
+    } else {
+        throw new Error("User not found");
     }
 })
 
 
+
 export const login = createAsyncThunk('/auth/login', async ({ email, password }) => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-        const userDocRef = doc(db, 'users', userCredential.user.uid);
-        const userDocSnap = await getDoc(userDocRef);
+    const userDocRef = doc(db, 'users', userCredential.user.uid);
+    const userDocSnap = await getDoc(userDocRef);
 
-        if (userDocSnap.exists()) {
-            const userData = userDocSnap.data();
-            userCredential.user.displayName = userData.name;
-            return { user: userCredential.user, role: userData };
-        } else {
-            return { user: userCredential.user, userData: null };
-        }
-    } catch (error) {
-        throw error;
+    if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        userCredential.user.displayName = userData.name;
+        return { user: userCredential.user, role: userData };
+    } else {
+        return { user: userCredential.user, userData: null };
     }
 });
 
 
 export const logout = createAsyncThunk("/auth/logout", async () => {
-    try {
-        await signOut(auth);
-    } catch (error) {
-        throw error;
-    }
+    await signOut(auth);
 });
 
 const authSlice = createSlice({

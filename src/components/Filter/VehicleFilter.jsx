@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Checkbox } from "@nextui-org/react";
+import {RadioGroup, Radio} from "@nextui-org/react";
 
 const CarType = ({ filterCriteria, setFilterCriteria }) => {
   const vehicleTypes = [
@@ -34,20 +35,20 @@ const CarType = ({ filterCriteria, setFilterCriteria }) => {
   }, [filterCriteria]);
 
   return (
-    <div className="flex flex-col">
+    <RadioGroup className="flex flex-col">
       {vehicleTypes.map((vehicleType) => (
-        <Checkbox
+        <Radio
           key={vehicleType.value}
           id={vehicleType.value}
-          isSelected={filterCriteria.vehicleType?.includes(vehicleType.value) || false}
-          onChange={(event) =>
-            handleCheckboxChange(vehicleType.value, event.target.checked)
-          }
+          // isSelected={filterCriteria.vehicleType?.includes(vehicleType.value) || false}
+          // onChange={(event) =>
+          //   handleCheckboxChange(vehicleType.value, event.target.checked)
+          // }
         >
           {vehicleType.label}
-        </Checkbox>
+        </Radio>
       ))}
-    </div>
+    </RadioGroup>
   );
 };
 

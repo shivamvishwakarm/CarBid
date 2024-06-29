@@ -73,7 +73,7 @@ const VehicleSellingForm = ({ vehicle }) => {
 
       <Modal size='2xl' isOpen={isOpen} onOpenChange={onClose}>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 text-blue-800">Submit Vehicle Details</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1 text-blue-800">Enter Vehicle Details</ModalHeader>
           <ModalBody>
             {isFetching ? (
               <div className="flex justify-center items-center py-4">

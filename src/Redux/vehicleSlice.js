@@ -4,18 +4,18 @@ import { doc, setDoc, collection, query, getDocs, addDoc, updateDoc, getDoc, whe
 import { db, storage } from '../config/firebase';
 
 
-
 export const fetchAllVehicles = createAsyncThunk(
   'vehicles/fetchAll',
   async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'vehicles'));
-      const vehicles = [];
-      querySnapshot.forEach((doc) => {
-        vehicles.push({ id: doc.id, ...doc.data() });
-      });
+      const vehicles = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
       return vehicles;
     } catch (error) {
+      console.error('Error fetching all vehicles:', error);
       throw error;
     }
   }

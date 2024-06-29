@@ -1,16 +1,19 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import VehicleList from '../components/VehicleList';
 import Filters from '../components/Filter/Filters';
 import { BreadcrumbItem, Breadcrumbs} from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const Allvehicles = () => {
-  const [openDropdowns, setOpenDropdowns] = useState({
-    car: false,
-    bike: false,
-    scooty: false,
-  });
+  const city = useSelector(state => state.vehicle.city);
+
+  // const [openDropdowns, setOpenDropdowns] = useState({
+  //   car: false,
+  //   bike: false,
+  //   scooty: false,
+  // });
 
   const navigate=useNavigate()
 
@@ -31,7 +34,7 @@ const Allvehicles = () => {
         <div className="md:w-1/5 pr-4">
           <Breadcrumbs className='mb-4'>
             <BreadcrumbItem onClick={handelRoute}  className='font-semibold'>Home</BreadcrumbItem>
-            <BreadcrumbItem className='font-semibold' color='primary'>Hot auctions in noida </BreadcrumbItem>
+            <BreadcrumbItem className='font-semibold' color='primary'>Hot auctions in {city} </BreadcrumbItem>
           </Breadcrumbs>
           <Filters />
         </div>

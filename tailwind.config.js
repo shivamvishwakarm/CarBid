@@ -9,7 +9,13 @@ export default {
 
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primaryColor: '#2B58B0',
+        pColorHover: '#1E4899',
+        gray: '#989898'
+      }
+    },
   },
   darkMode: "class",
   plugins: [nextui()],

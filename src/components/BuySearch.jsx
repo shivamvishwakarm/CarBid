@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react';
 import {Modal} from './Utility/Modal';
 import { Button, Divider, Image, Input, Link, ScrollShadow, CircularProgress } from '@nextui-org/react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import useCurrentCity from '../hooks/useCurrentCity';
 import carimg from '../assets/f402d1e9bd1077179c11d5502a3180a1.jpg';
 import { fetchVehiclesByFilter, searchVehicles } from '../Redux/vehicleSlice';

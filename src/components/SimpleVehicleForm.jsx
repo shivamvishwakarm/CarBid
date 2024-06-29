@@ -15,11 +15,33 @@ import b8 from '../assets/c3e37bcf2700ab5e993594e2e31f0852.png';
 import b9 from '../assets/d0202be409abd6ce3bc3cb03884c56e7.jpg';
 import b10 from '../assets/dd574ce9ae4551ed764f80ff3e7addc1.png';
 
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+
+// upload icon
+const UploadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12" />
+  </svg>
+);
 
 import toast from 'react-hot-toast';
 import useBrands from '../hooks/useBrands.jsx';
 
-const SimpleVehicleForm = ({ }) => {
+
+
+// new code 
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
+import Typography from '@mui/material/Typography';
+
+const steps = ['Seller info', 'Vechicle info', 'Evaluation', 'Terms & conditions', 'Enter bid'];
+
+
+
+
+const SimpleVehicleForm = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.data.uid);
   const [isLoading, setisLoding] = useState(false);
@@ -161,22 +183,22 @@ const SimpleVehicleForm = ({ }) => {
       case 1:
         return (
           <div>
-            <RadioGroup value={formData.sellerType} label="Seller Type" onChange={(value) => setFormData({ ...formData, sellerType: value.target.value })}>
+            <RadioGroup className='text-black pt-4' value={formData.sellerType} label="Seller Type" onChange={(value) => setFormData({ ...formData, sellerType: value.target.value })}>
               <div className='flex'>
                 <Radio value="dealer" className=' mr-2'>Dealer</Radio>
                 <Radio value="individual">Individual</Radio>
               </div>
             </RadioGroup>
-            <h2 className='text-blue-500'>Seller Information</h2>
+            <h2 className='mt-4'>Seller Information</h2>
             {formData.sellerType === 'individual' && <div className='flex flex-col my-2'>
               <div className='flex my-2'>
                 <Input
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder="Name"
                   value={formData.name}
                   radius='sm'
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className='mr-2'
+                  className='mr-2 bg-transparent'
                 />
                 <Input
                   type="tel"
@@ -198,13 +220,16 @@ const SimpleVehicleForm = ({ }) => {
             }
 
             <label className="block m-4">
-              <span className="text-gray-700">Upload your ID proof</span>
-              <div className="mt-1 flex  flex-col">
-                <span className="text-gray-500">(PDF, PNG, JPG up to 5MB)</span>
-                <span className=" bg-blue-800  mt-3 rounded-md px-3 py-1 size-2/5 flex items-center justify-center text-sm font-medium mr-2 text-white">
-                  Choose file
-                </span>
-                <input type="file" className="sr-only" onChange={(e) => handelIdproof(e.target.files[0])} />
+              <span className="text-gray">ID proof(*Please provide only PAN card & Driving license)</span>
+              <div className="mt-1 flex flex-col">
+
+                <label className="inline-flex  mt-3 cursor-pointer">
+                  <Button auto flat color="primary" variant="bordered" className="flex text-blue-700 rounded-md w-80">
+                    <UploadIcon />
+                    Upload ID
+                  </Button>
+                  <input type="file" className="sr-only" onChange={handlePhotoUpload} />
+                </label>
               </div>
             </label>
             <Image
@@ -280,22 +305,26 @@ const SimpleVehicleForm = ({ }) => {
       case 2:
         return (
           <ScrollShadow hideScrollBar className="w-[600px] h-[400px]">
-            <div className=' flex flex-col '>
-              <div >
+            <div className=' flex flex-col mt-2'>
+              <div className='flex flex-col w-80'>
+                <label htmlFor="registrationYear">Registration year</label>
                 <select
+                  id='registrationYear'
                   value={formData.registrationYear}
                   onChange={(e) => setFormData({ ...formData, registrationYear: e.target.value })}
-                  className="mt-2 mr-4 border border-blue-300 rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white"
+                  className="text-gray mt-2 mr-4 border-2 border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white"
                 >
-                  <option value="">Select registration year</option>
+                  <option value="">Choose year</option>
                   {[2022, 2021, 2020, 2019, 2018].map((year) => (
                     <option key={year} value={year} className="text-blue-600">
                       {year}
                     </option>
                   ))}
                 </select>
+                {/* uncomment if city is needed */}
 
-                <select
+
+                {/* <select
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                   className="mt-2 border border-blue-300 rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white"
@@ -306,60 +335,70 @@ const SimpleVehicleForm = ({ }) => {
                       {city}
                     </option>
                   ))}
-                </select>
+                </select> */}
 
 
               </div>
-              <div className='flex items-center justify-between my-2 '>
-                <select
-                  value={formData.brand}
-                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                  className='mt-2 border border-blue-300 rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white'
-                >
-                  <option value="">Select vehicle brand</option>
-                  {brands.map((brand) => (
-                    <option key={brand} value={brand} className="text-blue-600">
-                      {brand}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={formData.model}
-                  onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                  className='mt-2 border border-blue-300 rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white'
-                >
-                  <option value="">Select vehicle model</option>
-                  {models.map((model) => (
-                    <option key={model} value={model} className="text-blue-600">
-                      {model}
-                    </option>
-                  ))}
-                </select>
+              <div className='flex items-center          justify-between my-2 '>
+                <div className='flex flex-col'>
+                  <label htmlFor="brand">Choose brand</label>
+                  <select
+                    id='brand'
+                    value={formData.brand}
+                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                    className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white'
+                  >
+                    <option value="">Choose brand</option>
+                    {brands.map((brand) => (
+                      <option key={brand} value={brand} className="text-blue-600">
+                        {brand}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className='flex flex-col'>
+                  <label htmlFor="model">Choose model</label>
+                  <select
+                    label="model"
+                    value={formData.model}
+                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                    className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white'
+                  >
+                    <option value="">Choose model</option>
+                    {models.map((model) => (
+                      <option key={model} value={model} className="text-blue-600">
+                        {model}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
 
               <div className='flex items-center justify-between my-2'>
 
-                <div className='border border-blue-300 rounded-md p-1'>
-                  <label className="text-blue-600">Select vehicle type</label>
+                <div className='flex flex-col'>
+                  <label htmlFor="vechicle">Choose vechicle type</label>
                   <select
+                    label="vechicle"
                     value={formData.vehicleType}
                     onChange={(e) => setFormData({ ...formData, vehicleType: e.target.value })}
-                    className='mt-2  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white'
+                    className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white'
                   >
+                    <option value="Choose vehicle type">Choose vehicle type</option>
                     <option value="car">Car</option>
                     <option value="bike">Bike</option>
                     <option value="scooty">Scooty</option>
                   </select>
                 </div>
 
-                <div className="ml-4 border border-blue-300 rounded-md p-1">
-                  <label className="text-blue-600">Select fuel type</label>
+                <div className='flex flex-col mr-2'>
+                  <label htmlFor="fuel">Choose fuel type</label>
                   <select
-                    value={formData.fuelType}
-                    onChange={(e) => setFormData({ ...formData, fuelType: e.target.value })}
-                    className='mt-2  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-blue-600 bg-white'
+                    label="fuel"
+                    value={formData.vehicleType}
+                    onChange={(e) => setFormData({ ...formData, vehicleType: e.target.value })}
+                    className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white'
                   >
                     <option value="petrol">Petrol</option>
                     <option value="diesel">Diesel</option>
@@ -373,39 +412,48 @@ const SimpleVehicleForm = ({ }) => {
 
 
             </div>
-            <div className='flex items-center w-full justify-between mb-2'>
+            <div className='flex items-center justify-between mb-2'>
+
+
+
+              {/* Transmission Type */}
+              <div className="flex flex-col p-1">
+                <label htmlFor="transmission">Transmission</label>
+                <select
+                  id='transmission'
+                  value={formData.model}
+                  onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                  className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white'
+                >
+                  <option value="">Transmission</option>
+
+                  <option value={"Manual"} className="text-blue-600">
+                    Manual
+                  </option>
+                  <option k value={"Automatic"} className="text-blue-600">
+                    Automatic
+                  </option>
+
+                </select>
+              </div>
+
 
               {/* Distance Travel */}
-              <div className='w-full'>
-                <p className="text-blue-600">Distance Travel</p>
+              <div className='flex flex-col'>
+                <label >Distance Travel</label>
                 <input
                   type="text"
                   placeholder="Travel Distance (in kilometers)"
                   value={formData.travelDistance}
                   onChange={(e) => setFormData({ ...formData, travelDistance: e.target.value })}
-                  className='mt-2 px-3 py-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none text-blue-600 bg-white w-2/3'
+                  className='mt-2 border border-gray rounded-md p-1 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 outline-none text-gray bg-white w-2/3 mr-0'
                 />
-              </div>
-
-              {/* Transmission Type */}
-              <div className=''>
-                <p className='text-blue-600'>Transmission Type</p>
-                <RadioGroup
-                  value={formData.transmission}
-                  onChange={(e) => setFormData({ ...formData, transmission: e.target.value })}
-                  className="mt-2"
-                >
-                  <div className='flex items-center'>
-                    <Radio value="auto" className="mr-4">Automatic</Radio>
-                    <Radio value="manual" className="ml-4">Manual</Radio>
-                  </div>
-                </RadioGroup>
               </div>
             </div>
 
             <RadioGroup
               value={formData.ownerType}
-              label="Owner Type"
+              label={<span style={{ color: 'black' }}>Owner Type</span>}
               className="mt-2"
               onChange={(e) => setFormData({ ...formData, ownerType: e.target.value })}
             >
@@ -416,7 +464,11 @@ const SimpleVehicleForm = ({ }) => {
               </div>
             </RadioGroup>
 
+            <label htmlFor="carLocation" className="block text-sm font-medium text-gray-700">
+              Car Location
+            </label>
             <Input
+              id="carLocation"
               type="text"
               placeholder="Car Location"
               value={formData.carLocation}
@@ -425,25 +477,32 @@ const SimpleVehicleForm = ({ }) => {
               onChange={(e) => setFormData({ ...formData, carLocation: e.target.value })}
             />
 
+
             <RadioGroup
+              id="modifications"
               value={formData.modification}
               label="Has there been any modification?"
               className="mt-2"
               onChange={(e) => setFormData({ ...formData, modification: e.target.value })}
             >
               <div className='flex'>
-                <Radio value="yes" >Yes</Radio>
+                <Radio value="yes">Yes</Radio>
                 <Radio value="no" className='mx-2'>No</Radio>
               </div>
             </RadioGroup>
             {formData.modification === 'yes' && (
-              <Input
-                type="text"
-                placeholder="Enter modification details"
-                value={formData.modificationDetails}
-                radius='sm'
-                onChange={(e) => setFormData({ ...formData, modificationDetails: e.target.value })}
-              />
+              <div className='my-2'>
+                <label htmlFor='modificationsDetails'>If yes, please specify*</label>
+                <Input
+                className='mt-2'
+                  id='modificationDetails'
+                  type="text"
+                  placeholder="Enter modification details"
+                  value={formData.modificationDetails}
+                  radius='sm'
+                  onChange={(e) => setFormData({ ...formData, modificationDetails: e.target.value })}
+                />
+              </div>
             )}
 
           </ScrollShadow>
@@ -453,35 +512,10 @@ const SimpleVehicleForm = ({ }) => {
       case 3:
         return (
           <div>
-            <label className="block m-4">
-              <div className="mt-1 flex  flex-col">
-                <span className=" bg-blue-800 rounded-md px-3 py-1 size-2/5 flex items-center justify-center text-sm font-medium mr-2 text-white">
-                  Choose file
-                </span>
-                <input
-                  type="file"
-                  placeholder="Upload vehicle photos"
-                  onChange={(e) => handlePhotoUpload(e.target.files)}
-                  multiple
-                  className="mt-2 rounded-md bg-blue-500 text-white px-4 py-2 focus:outline-none focus:bg-blue-600 focus:border-blue-700 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sr-only"
-                />
-                {/* <input type="file" className="sr-only" onChange={(e) => handelIdproof(e.target.files[0])} /> */}
-              </div>
-            </label>
-
-
-
-            <div className="flex mt-2">
-              {photoPreviews.map((preview, index) => (
-                <Image
-                  key={index}
-                  src={preview}
-                  alt={`Preview ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-md mr-2"
-                />
-              ))}
+            <h2 className='text-blue-600'>Terms & eval</h2>
+            
             </div>
-          </div>
+        
         );
 
       case 4:
@@ -508,6 +542,62 @@ const SimpleVehicleForm = ({ }) => {
   };
 
 
+
+
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [completed, setCompleted] = React.useState({});
+
+  const totalSteps = () => {
+    return steps.length;
+  };
+
+  const completedSteps = () => {
+    return Object.keys(completed).length;
+  };
+
+  const isLastStep = () => {
+    return activeStep === totalSteps() - 1;
+  };
+
+  const allStepsCompleted = () => {
+    return completedSteps() === totalSteps();
+  };
+
+  const handleNext = () => {
+    const newActiveStep =
+      isLastStep() && !allStepsCompleted()
+        ? // It's the last step, but not all steps have been completed,
+        // find the first step that has been completed
+        steps.findIndex((step, i) => !(i in completed))
+        : activeStep + 1;
+    setActiveStep(newActiveStep);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStep = (step) => () => {
+    setActiveStep(step);
+  };
+
+  const handleComplete = () => {
+    const newCompleted = completed;
+    newCompleted[activeStep] = true;
+    setCompleted(newCompleted);
+    handleNext();
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+    setCompleted({});
+  };
+
+
+
+
+
+
   return (
     <>
       <div className="flex flex-col justify-center max-h-screen  ">
@@ -526,10 +616,10 @@ const SimpleVehicleForm = ({ }) => {
           </Button>
         </div>
         <div className="flex items-center mb-4">
-  <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
-  <span className="px-2" style={{ color: '#DFDFDF' }}>or</span>
-  <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
-</div>
+          <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
+          <span className="px-2" style={{ color: '#DFDFDF' }}>or</span>
+          <div className="flex-grow h-0.5" style={{ backgroundColor: '#DFDFDF' }}></div>
+        </div>
         <p className=" mb-4">Start with a brand</p>
         <div className="grid grid-cols-4 gap-4">
           {[b1, b2, b3, b4, b5, b6, b7, b8].map((brand, index) => (
@@ -552,6 +642,27 @@ const SimpleVehicleForm = ({ }) => {
       <Modal size='2xl' isOpen={isOpen} onOpenChange={onClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Submit Vehicle Details</ModalHeader>
+
+          {/* stepper function */}
+
+          <Box className='mx-2 ' sx={{ width: '100%' }}>
+            <Stepper nonLinear activeStep={activeStep}>
+              {steps.map((label, index) => (
+
+                <Step key={label} completed={completed[index]}>
+                  <StepButton color="inherit" onClick={handleStep(index)}>
+                    {label}
+                  </StepButton>
+                </Step>
+              ))}
+            </Stepper>
+
+          </Box>
+
+          {/* stepper function */}
+
+
+
           <ModalBody>
             <form onSubmit={handleSubmit}>
               {renderStage()}
@@ -563,15 +674,19 @@ const SimpleVehicleForm = ({ }) => {
                 ) : (
                   <>
                     <Button
-                      className="mr-2 bg-blue-800 text-white"
+                      className="mr-2 bg-gray "
                       radius='sm'
+                      // onClick={handleBack}
 
-                      onClick={() => setStage((prevStage) => Math.max(prevStage - 1, 1))}
+                      onClick={() => {
+                        handleBack()
+                        setStage((prevStage) => Math.max(prevStage - 1, 1))
+                      }}
                     >
                       Previous
                     </Button>
                     <Button
-                      className="mr-2 bg-blue-800 text-white"
+                      className="mr-2 bg-blue-800 text-white hover:bg-blue-400"
                       type="button"
                       radius='sm'
                       onClick={(e) => {
@@ -579,6 +694,7 @@ const SimpleVehicleForm = ({ }) => {
                           handleSubmit(e);
                         } else {
                           setStage(prevStage => prevStage + 1);
+                          handleNext()
                         }
                       }}
                     >
