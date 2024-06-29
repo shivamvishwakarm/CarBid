@@ -14,8 +14,28 @@ import b7 from '../assets/bc3d6ddc5983ce11ad42ba78b28716ca.png';
 import b8 from '../assets/c3e37bcf2700ab5e993594e2e31f0852.png';
 import b9 from '../assets/d0202be409abd6ce3bc3cb03884c56e7.jpg';
 import b10 from '../assets/dd574ce9ae4551ed764f80ff3e7addc1.png';
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+
+
+
+// stepper imports
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Check from '@mui/icons-material/Check';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+
+
+
+
+
 
 // upload icon
 const UploadIcon = () => (
@@ -30,11 +50,7 @@ import useBrands from '../hooks/useBrands.jsx';
 
 
 // new code 
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
-import Typography from '@mui/material/Typography';
+
 
 const steps = ['Seller info', 'Vechicle info', 'Evaluation', 'Terms & conditions', 'Enter bid'];
 
@@ -178,6 +194,13 @@ const SimpleVehicleForm = () => {
   };
 
 
+
+
+
+
+
+
+
   const renderStage = () => {
     switch (stage) {
       case 1:
@@ -189,7 +212,7 @@ const SimpleVehicleForm = () => {
                 <Radio value="individual">Individual</Radio>
               </div>
             </RadioGroup>
-            <h2 className='mt-4'>Seller Information</h2>
+            <h2 className='mt-4'>Dealer Information</h2>
             {formData.sellerType === 'individual' && <div className='flex flex-col my-2'>
               <div className='flex my-2'>
                 <Input
@@ -242,8 +265,9 @@ const SimpleVehicleForm = () => {
               <div className=' flex flex-col'>
 
                 <div><Input
+                      variant="bordered"
                   type="text"
-                  placeholder="Enter dealership name"
+                  placeholder="Dealership name"
                   value={formData.dealershipName}
                   radius='sm'
                   onChange={(e) => setFormData({ ...formData, dealershipName: e.target.value })}
@@ -252,16 +276,18 @@ const SimpleVehicleForm = () => {
                 </div>
                 <div className=' flex'>
                   <Input
+                        variant="bordered"
                     type="text"
-                    placeholder="Enter Delear your name"
+                    placeholder="Delear name"
                     value={formData.name}
                     radius='sm'
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className='mr-2'
                   />
                   <Input
+                        variant="bordered"
                     type="tel"
-                    placeholder="Enter your mobile number"
+                    placeholder="Mobile number"
                     value={formData.mobile}
                     radius='sm'
                     onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
@@ -270,8 +296,9 @@ const SimpleVehicleForm = () => {
                 </div>
                 <div>
                   <Input
+                        variant="bordered"
                     type="text"
-                    placeholder="Enter your address"
+                    placeholder="Address"
                     value={formData.address}
                     radius='sm'
                     className='mb-2'
@@ -279,22 +306,28 @@ const SimpleVehicleForm = () => {
                   />
                 </div>
 
-                <div className=' flex'>
+                <div className=' flex justify-between'>
+                 
+                  <select
+                        
+                    value={formData.salesRange}
+                    onChange={(e) => setFormData({ ...formData, salesRange: e.target.value })}
+                    className='mb-2 p-2 rounded-md text-gray bg-transparent border-2   border-gray '
+                  >
+                    <option value="">Sales range per month</option>
+                    <option value="0-1000">0 - 1,000</option>
+                    <option value="1001-5000">1,001 - 5,000</option>
+                    <option value="5001-10000">5,001 - 10,000</option>
+                    <option value="10001+">10,001+</option>
+                  </select>
                   <Input
+                    variant="bordered"
                     type="text"
-                    placeholder="Enter website"
+                    placeholder="website (optional)"
                     value={formData.website}
                     radius='sm'
                     onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                    className='mb-2 mr-2'
-                  />
-                  <Input
-                    type="text"
-                    placeholder="Enter sales range"
-                    value={formData.salesRange}
-                    radius='sm'
-                    onChange={(e) => setFormData({ ...formData, salesRange: e.target.value })}
-                    className='mb-2'
+                    className='mb-2 mr-2 w-50'
                   />
                 </div>
               </div>
@@ -494,7 +527,7 @@ const SimpleVehicleForm = () => {
               <div className='my-2'>
                 <label htmlFor='modificationsDetails'>If yes, please specify*</label>
                 <Input
-                className='mt-2'
+                  className='mt-2'
                   id='modificationDetails'
                   type="text"
                   placeholder="Enter modification details"
@@ -513,9 +546,9 @@ const SimpleVehicleForm = () => {
         return (
           <div>
             <h2 className='text-blue-600'>evalution</h2>
-            
-            </div>
-        
+
+          </div>
+
         );
 
       case 4:
@@ -523,37 +556,23 @@ const SimpleVehicleForm = () => {
           <div>
             <div>
               <ScrollShadow className=" h-[400px]">
-              <h2 className="font-bold">Terms and conditions</h2>
-              <p className='pt-4'>
-                {/* write terms and conditions content */}
-                By using this service, you agree to the following terms and conditions:
-                <ol>
-                  <li>1. You must ensure that all information provided about your vehicle is accurate and truthful.</li>
-                  <li>2. Any modifications or alterations to the vehicle must be disclosed prior to the evaluation.</li>
-                  <li>3. The service reserves the right to modify or terminate services at any time without notice.</li>
-                  <li>4. All evaluations are subject to change based on further inspection and market conditions.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                  <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
-                </ol>
-                Please read these terms carefully before proceeding.
-              </p>
+                <h2 className="font-bold">Terms and conditions</h2>
+                <p className='pt-4'>
+                  {/* write terms and conditions content */}
+                  By using this service, you agree to the following terms and conditions:
+                  <ol>
+                    <li>1. You must ensure that all information provided about your vehicle is accurate and truthful.</li>
+                    <li>2. Any modifications or alterations to the vehicle must be disclosed prior to the evaluation.</li>
+                    <li>3. The service reserves the right to modify or terminate services at any time without notice.</li>
+                    <li>4. All evaluations are subject to change based on further inspection and market conditions.</li>
+                    <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+
+                  </ol>
+                  Please read these terms carefully before proceeding.
+                </p>
               </ScrollShadow>
             </div>
-            
+
             <div className="flex items-center mt-4">
               <input
                 id="agreeTerms"
@@ -565,7 +584,7 @@ const SimpleVehicleForm = () => {
               </label>
             </div>
           </div>
-         
+
         );
 
     }
@@ -626,6 +645,158 @@ const SimpleVehicleForm = () => {
 
 
 
+  const QontoConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 10,
+      left: 'calc(-50% + 16px)',
+      right: 'calc(50% + 16px)',
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#0000FF',
+      },
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#0000FF',
+      },
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+      borderTopWidth: 3,
+      borderRadius: 1,
+    },
+  }));
+
+  const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
+    color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#eaeaf0',
+    display: 'flex',
+    height: 22,
+    alignItems: 'center',
+    ...(ownerState.active && {
+      color: '#784af4',
+    }),
+    '& .QontoStepIcon-completedIcon': {
+      color: '#784af4',
+      zIndex: 1,
+      fontSize: 18,
+    },
+    '& .QontoStepIcon-circle': {
+      width: 8,
+      height: 8,
+      borderRadius: '50%',
+      backgroundColor: 'currentColor',
+    },
+  }));
+
+  function QontoStepIcon(props) {
+    const { active, completed, className } = props;
+
+    return (
+      <QontoStepIconRoot ownerState={{ active }} className={className}>
+        {completed ? (
+          <Check className="QontoStepIcon-completedIcon" />
+        ) : (
+          <div className="QontoStepIcon-circle" />
+        )}
+      </QontoStepIconRoot>
+    );
+  }
+
+  QontoStepIcon.propTypes = {
+    /**
+     * Whether this step is active.
+     * @default false
+     */
+    active: PropTypes.bool,
+    className: PropTypes.string,
+    /**
+     * Mark the step as completed. Is passed to child components.
+     * @default false
+     */
+    completed: PropTypes.bool,
+  };
+
+  const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 22,
+      left: 'calc(-50% + 16px)',
+      right: 'calc(50% + 16px)',
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#0000FF',
+      },
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#0000FF',
+      },
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+      borderTopWidth: 3,
+      borderRadius: 1,
+    },
+  }));
+
+  const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
+    zIndex: 1,
+    color: '#0000FF',
+    width: 50,
+    height: 50,
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...(ownerState.active && {
+      backgroundColor:
+        '#FFFFFF',
+      boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+    }),
+    ...(ownerState.completed && {
+      backgroundColor:
+        '#FFFFFF',
+    }),
+  }));
+
+  function ColorlibStepIcon(props) {
+    const { active, completed, className } = props;
+
+    const icons = {
+      1: <RadioButtonCheckedIcon />,
+      2: <RadioButtonCheckedIcon />,
+      3: <RadioButtonCheckedIcon />,
+      4: <RadioButtonCheckedIcon />,
+      5: <RadioButtonCheckedIcon />,
+    };
+
+    return (
+      <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+        {icons[String(props.icon)]}
+      </ColorlibStepIconRoot>
+    );
+  }
+
+  ColorlibStepIcon.propTypes = {
+    /**
+     * Whether this step is active.
+     * @default false
+     */
+    active: PropTypes.bool,
+    className: PropTypes.string,
+    /**
+     * Mark the step as completed. Is passed to child components.
+     * @default false
+     */
+    completed: PropTypes.bool,
+    /**
+     * The label displayed in the step icon.
+     */
+    icon: PropTypes.node,
+  };
+
+
 
 
 
@@ -676,19 +847,17 @@ const SimpleVehicleForm = () => {
 
           {/* stepper function */}
 
-          <Box className='mx-2 ' sx={{ width: '100%' }}>
-            <Stepper nonLinear activeStep={activeStep}>
-              {steps.map((label, index) => (
+          <Stack sx={{ width: '100%' }} spacing={4}>
 
-                <Step key={label} completed={completed[index]}>
-                  <StepButton color="inherit" onClick={handleStep(index)}>
-                    {label}
-                  </StepButton>
+            <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
                 </Step>
               ))}
             </Stepper>
 
-          </Box>
+          </Stack>
 
           {/* stepper function */}
 
