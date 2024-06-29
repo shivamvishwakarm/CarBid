@@ -512,7 +512,7 @@ const SimpleVehicleForm = () => {
       case 3:
         return (
           <div>
-            <h2 className='text-blue-600'>Terms & eval</h2>
+            <h2 className='text-blue-600'>evalution</h2>
             
             </div>
         
@@ -521,20 +521,32 @@ const SimpleVehicleForm = () => {
       case 4:
         return (
           <div>
-            <h2 className='text-blue-600'>Pickup Location</h2>
-            <div className='flex items-center'>
-              <Checkbox
-                onChange={handlepickup}  ><span className='text-blue-600'>Same as car location</span></Checkbox>
-            </div>
-            <Input
-              type="text"
-              placeholder="Enter pickup location"
-              value={formData.pickupLocation}
-              radius='sm'
-              onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
+          <h2 className="font-bold">Terms and conditions</h2>
+        
+          <p className='pt-4'>
+            {/* write terms and conditions content */}
+            By using this service, you agree to the following terms and conditions:
+            <ol>
+              <li>1. You must ensure that all information provided about your vehicle is accurate and truthful.</li>
+              <li>2. Any modifications or alterations to the vehicle must be disclosed prior to the evaluation.</li>
+              <li>3. The service reserves the right to modify or terminate services at any time without notice.</li>
+              <li>4. All evaluations are subject to change based on further inspection and market conditions.</li>
+              <li>5. Personal data collected during the process will be used in accordance with our privacy policy.</li>
+            </ol>
+            Please read these terms carefully before proceeding.
+          </p>
+        
+          <div className="flex items-center mt-4">
+            <input
+              id="agreeTerms"
+              type="checkbox"
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
-
+            <label htmlFor="agreeTerms" className="ml-2 block text-sm text-gray-900">
+              I agree to the terms and conditions
+            </label>
           </div>
+        </div>
         );
 
     }
