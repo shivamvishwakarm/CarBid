@@ -18,6 +18,8 @@ import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 
+//Date picker of evaluation
+import DatePicker from './Utility/DatePicker.jsx'
 
 // stepper imports
 import PropTypes from 'prop-types';
@@ -544,10 +546,10 @@ const SimpleVehicleForm = () => {
 
       case 3:
         return (
-          <div>
-            <h2 className='text-blue-600'>evalution</h2>
+          <ScrollShadow>
+              <DatePicker />
 
-          </div>
+              </ScrollShadow>
 
         );
 
@@ -874,7 +876,7 @@ const SimpleVehicleForm = () => {
                 ) : (
                   <>
                     <Button
-                      className="mr-2 bg-gray "
+                      className="mr-2 bg-[#DFDFDF] "
                       radius='sm'
                       // onClick={handleBack}
 
@@ -883,7 +885,7 @@ const SimpleVehicleForm = () => {
                         setStage((prevStage) => Math.max(prevStage - 1, 1))
                       }}
                     >
-                      Previous
+                      Go back
                     </Button>
                     <Button
                       className="mr-2 bg-blue-800 text-white hover:bg-blue-400"
@@ -898,7 +900,8 @@ const SimpleVehicleForm = () => {
                         }
                       }}
                     >
-                      {(stage === 4) ? 'Submit' : 'Next'}
+                      {/* {(stage === 4) ? 'Submit' : 'Next'} */}
+                      Confirm & proceed
                     </Button>
                   </>
                 )}
