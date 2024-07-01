@@ -23,9 +23,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout><Home /></Layout>} />
         <Route path="/vehiclelist" element={<Layout><Allvehicles /></Layout>} />
-        <Route path="/signup" element={<Layout><Signup /></Layout>} />
+        {/* <Route path="/signup" element={<Layout><Signup /></Layout>} /> */}
         <Route path="/vehicle/:id" element={<Layout><VehicleDetail /></Layout>} />
-        <Route path="/signin" element={<Layout><SignIn /></Layout>} />
+        {/* <Route path="/signin" element={<Layout><SignIn /></Layout>} /> */}
         <Route path="/denied" element={<Layout><Denied /></Layout>} />
 
 
@@ -50,14 +50,15 @@ function App() {
         </Route>
 
 
-        <Route element={<RoleLayout allowedRoles={["ADMIN"]} />}>
+        {/* <Route element={<RoleLayout allowedRoles={["ADMIN"]} />}> */}
+  
 
           <Route
             path="/admindashboard"
             element={<Layout><AdminDashboard /></Layout>}
           />
           <Route path="/evaluterdashboard" element={<Layout><EvaluterDashboard /></Layout>} />
-        </Route>
+        {/* </Route> */}
 
       </Routes>
     </>
