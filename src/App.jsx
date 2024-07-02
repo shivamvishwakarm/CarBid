@@ -15,6 +15,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import EditProfile from './pages/EditProfile';
 import RoleLayout from './Layouts/RoleLayout';
 import Denied from './pages/Denied';
+import URLDoestnotExist from './components/URLDoestnotExist';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/vehicle/:id" element={<Layout><VehicleDetail /></Layout>} />
         {/* <Route path="/signin" element={<Layout><SignIn /></Layout>} /> */}
         <Route path="/denied" element={<Layout><Denied /></Layout>} />
+        <Route path="*" element={<URLDoestnotExist />} />
 
 
         <Route element={<RoleLayout allowedRoles={["buyer","ADMIN"]} />}>
