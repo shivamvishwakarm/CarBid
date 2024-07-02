@@ -105,11 +105,32 @@ const SimpleVehicleForm = () => {
     }
   }
 
-  const handlePhotoUpload = (files) => {
-    const photoFiles = Array.from(files);
-    setVehiclePhotos(photoFiles);
-    const previews = photoFiles.map((file) => URL.createObjectURL(file));
+  const handlePhotoUpload = (event) => {
+    // console.log(files);
+    // const photoFiles = Array.from(files);
+    // console.log(photoFiles)
+    // setVehiclePhotos(photoFiles);
+    // const previews = photoFiles.map((file) => URL.createObjectURL(file));
+    // setPhotoPreviews(previews);
+
+    // new codee
+
+    const files = event.target.files; // Get the files from the event
+    if (!files) return; // If no files, do nothing
+
+    const photoFiles = Array.from(files); // Convert FileList to Array
+    console.log(photoFiles); // Log the files for debugging
+
+    setVehiclePhotos(photoFiles); // Update state with the photo files
+
+    // Generate previews for each file
+    const previews = photoFiles.map(file => URL.createObjectURL(file));
     setPhotoPreviews(previews);
+
+
+
+
+
   };
   const handelIdproof = (files) => {
     setIdProof(files);
@@ -247,27 +268,36 @@ const SimpleVehicleForm = () => {
             <label className="block m-4">
               <span className="text-gray">ID proof(*Please provide only PAN card & Driving license)</span>
               <div className="mt-1 flex flex-col">
-
-                <label className="inline-flex  mt-3 cursor-pointer">
-                  <Button auto flat color="primary" variant="bordered" className="flex text-blue-700 rounded-md w-80">
-                    <UploadIcon />
-                    Upload ID
-                  </Button>
-                  <input type="file" className="sr-only" onChange={handlePhotoUpload} />
-                </label>
+                <Button
+                  auto
+                  flat
+                  color="primary"
+                  variant="bordered"
+                  className="border-2 flex text-blue-700 rounded-md w-80"
+                  onClick={() => document.getElementById('fileInput').click()}
+                >
+                  <UploadIcon />
+                  Upload ID
+                </Button>
+                <input
+                  type="file"
+                  id="fileInput"
+                  className="sr-only"
+                  onChange={handlePhotoUpload}
+                />
               </div>
             </label>
             <Image
-              src={idPreviews}
+              src={photoPreviews}
               alt='Proof'
-              className="w-20 h-20 object-cover rounded-md mr-2"
+              className="w-20 h-20 object-cover rounded-md mr-2 my-2"
 
             />
             {formData.sellerType === 'dealer' && (
               <div className=' flex flex-col'>
 
                 <div><Input
-                      variant="bordered"
+                  variant="bordered"
                   type="text"
                   placeholder="Dealership name"
                   value={formData.dealershipName}
@@ -278,7 +308,7 @@ const SimpleVehicleForm = () => {
                 </div>
                 <div className=' flex'>
                   <Input
-                        variant="bordered"
+                    variant="bordered"
                     type="text"
                     placeholder="Delear name"
                     value={formData.name}
@@ -287,7 +317,7 @@ const SimpleVehicleForm = () => {
                     className='mr-2'
                   />
                   <Input
-                        variant="bordered"
+                    variant="bordered"
                     type="tel"
                     placeholder="Mobile number"
                     value={formData.mobile}
@@ -298,7 +328,7 @@ const SimpleVehicleForm = () => {
                 </div>
                 <div>
                   <Input
-                        variant="bordered"
+                    variant="bordered"
                     type="text"
                     placeholder="Address"
                     value={formData.address}
@@ -309,9 +339,9 @@ const SimpleVehicleForm = () => {
                 </div>
 
                 <div className=' flex justify-between'>
-                 
+
                   <select
-                        
+
                     value={formData.salesRange}
                     onChange={(e) => setFormData({ ...formData, salesRange: e.target.value })}
                     className='mb-2 p-2 rounded-md text-gray bg-transparent border-2   border-gray '
@@ -547,9 +577,9 @@ const SimpleVehicleForm = () => {
       case 3:
         return (
           <ScrollShadow>
-              <DatePicker />
+            <DatePicker />
 
-              </ScrollShadow>
+          </ScrollShadow>
 
         );
 
@@ -851,7 +881,7 @@ const SimpleVehicleForm = () => {
 
           <Stack sx={{ width: '100%' }} spacing={4}>
 
-            <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
+            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
               {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
