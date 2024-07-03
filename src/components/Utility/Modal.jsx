@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Image, Input, Modal as NextModal, ModalContent, ModalHeader, ModalBody, } from '@nextui-org/react';
 import useCurrentCity from '../../hooks/useCurrentCity';
 import { useDispatch } from 'react-redux';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 
 import city1 from '../../assets/city/0690c6b725612a73907f20fe585f8daa.png';
@@ -20,6 +22,7 @@ export const Modal = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [city, setCity] = useState('');
   const dispatch = useDispatch();
+  const [openAlert, setOpenAlert] = useState(false);
 
 
 
@@ -38,23 +41,72 @@ export const Modal = () => {
     setIsModalOpen(false);
   };
 
-
+// Function to handle the city click event on city image, update the city state, and submit the form
   const handleCityClick = (cityName) => {
-    setCity(cityName);
-  };
-  const handleCityChange = (event) => {
-    setCity(event.target.value);
+    setCity(cityName); // Update the city state with the clicked city name
+    
+    const mockEvent = { preventDefault: () => {} };
+    handleCitySubmit(mockEvent, cityName); // Pass cityName directly
   };
 
-  const handleCitySubmit = () => {
-    dispatch(fetchVehiclesByFilter({ city }));
-    handleCloseModal();
-  };
+
+
+ // Function to handle changes in the city input field
+const handleCityChange = (event) => {
+  // Update the city state with the new value from the input field
+  setCity(event.target.value);
+};
+
+// Function to handle the form submission
+const handleCitySubmit = (e, cityName = city) => {
+  e.preventDefault(); // Prevent the default form submission behavior
+
+  // Use the cityName parameter if provided, otherwise fall back to city state
+  const finalCityName = cityName.trim().toLowerCase();
+
+  // Check if the entered city is not 'bengaluru'
+  if(finalCityName !== 'bengaluru'){
+    console.log("Setting open alert to true"); // Debug log
+
+    setOpenAlert(true); // Show an alert if the city is not Bengaluru
+    return; // Exit the function early
+  }
+
+  // Log the city to the console (for debugging purposes)
+  console.log(cityName);
+  // Example of how you might dispatch an action to fetch vehicles based on the city
+  // Example of how you might dispatch an action to fetch vehicles based on the city
+  // dispatch(fetchVehiclesByFilter({ city }));
+  // Close the modal after submitting the form
+  // handleCloseModal();
+};
+
+// Function to handle the closing of the alert
+const handleCloseAlert = (event, reason) => {
+  // Do not close the alert if the user clicks away
+  if (reason === 'clickaway') {
+    return;
+  }
+  // Close the alert
+  setOpenAlert(false);
+};
 
 
   return (
+    <>
+        {/* Snackbar component to display alerts */}
+     <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+            {/* Alert component with a message and an onClose handler */}
+
+        <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
+          You caught us! We'll available soon at your {city}. Stay tuned!
+        </Alert>
+      </Snackbar>
+          {/* Alert component with a message and an onClose handler */}
     <NextModal className="fixed w-full insert-0 overflow-auto max-w-4xl"
       isOpen={isModalOpen} onClose={handleCloseModal}>
+          {/* Modal content goes here */}
+
       <ModalContent className='flex '>
         <ModalHeader className="">
           Location
@@ -64,8 +116,9 @@ export const Modal = () => {
 
         <ModalBody className=''>
           <div className="flex justify-center items-center">
+      {/* Form for submitting the city */}
 
-            <form className='w-1/2' onSubmit={handleCitySubmit}>
+            <form className='w-1/2' id="cityForm" onSubmit={handleCitySubmit}>
               <input
                 className='w-full p-2 text-gray border border-blue-700 rounded-md focus:outline-none '
                 type="text"
@@ -93,7 +146,7 @@ export const Modal = () => {
           <div className='flex flex-wrap gap-3 '>
             {citys.map((c, index) => (
               <div key={index} onClick={() => handleCityClick(c.name)} className='cursor-pointer'>
-                <Image width={100} height={150} src={c.image} className="size-32  " />
+                <Image width={100} height={62} src={c.image} className="size-32  " />
                 <p className="flex justify-center items-center">{c.name}</p>
               </div>
             ))}
@@ -103,5 +156,6 @@ export const Modal = () => {
 
       </ModalContent>
     </NextModal>
+    </>
   )
 }
