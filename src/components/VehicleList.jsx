@@ -12,6 +12,7 @@ const VehicleList = () => {
     
 
     const uId = useSelector((state) => state.auth.data.uid);
+    console.log("this is the ve", vehicles);    
 
     useEffect(() => {
         dispatch(fetchAllVehicles());
@@ -46,6 +47,8 @@ const VehicleList = () => {
                         const endDate = vehicle.endTime.toDate();
                         const currentTime = new Date();
                         const timeDifference = endDate - currentTime;
+                      
+                        console.log("this is the time difference", timeDifference)
                   
 
                         if (timeDifference > 0 &&

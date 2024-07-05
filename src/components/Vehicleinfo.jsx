@@ -1,10 +1,19 @@
 import React from 'react';
 import { Divider } from '@nextui-org/react';
+import PropTypes from 'prop-types';
 
 const Vehicleinfo = ({ vehicle }) => {
   return (
-    <div className='w-full md:w-1/2 mt-10 px-4 md:px-0'>
+
+    <div className='w-full md:w-1/2 mt-10 px-4 md:px-0 '>
+      <Divider className="my-4" />
+      <div className='flex flex-row justify-between items-center  mb-10'>
+      <h2 className='font-extrabold text-2xl'>Vehicle specifications</h2>
+      <p className='text-blue-600'>Check inspection report</p>
+
+      </div>
       <div className='flex flex-col'>
+
         <div className='flex flex-wrap justify-between'>
           <div className='w-full md:w-1/2 lg:w-1/3 mb-4'>
             <p className='font-light'>Vehicle Type</p>
@@ -17,6 +26,7 @@ const Vehicleinfo = ({ vehicle }) => {
             <Divider className="my-4" />
           </div>
         </div>
+
         <div className='flex flex-wrap justify-between'>
           <div className='w-full md:w-1/2 lg:w-1/3 mb-4'>
             <p className='font-light'>Fuel Type</p>
@@ -102,3 +112,8 @@ const Vehicleinfo = ({ vehicle }) => {
 };
 
 export default Vehicleinfo;
+
+
+Vehicleinfo.propTypes = {
+  vehicle: PropTypes.object.isRequired,
+};

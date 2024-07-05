@@ -7,10 +7,6 @@ import PropTypes from 'prop-types';
 
 
 
-
-
-
-
 const Clock = ({ vehicle }) => {
     const { id } = vehicle;
     const dispatch = useDispatch();

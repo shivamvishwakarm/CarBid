@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { Card, CardBody, Button, Image, ModalBody, ModalFooter } from "@nextui-org/react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,15 @@ import toast from "react-hot-toast";
 import Clock from '../Clock';
 
 
+// stepper image
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
 
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 
 
@@ -71,6 +79,29 @@ console.log(vehicle);
     }
   };
 
+// 
+
+
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  // const maxSteps = vehiclePhotos.length;
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
+
+
+
+
+// 
   const renderModalContent = () => (
     <ModalContent>
       <ModalHeader className="flex flex-col gap-1 text-center">Bids Information</ModalHeader>
@@ -92,10 +123,65 @@ console.log(vehicle);
       <Card shadow="dark-lg" className="w-[300px] flex flex-col rounded-xl overflow-hidden">
             <div className="relative h-48 overflow-hidden">
           <div className="relative z-10 top-2 right-4 bg-gray-800 bg-opacity-75 text-white rounded-md px-2 py-1 text-sm">
-            <Clock vehicle={vehicle} />
+            <Clock  vehicle={vehicle} />
           </div>
-          <Image radius="none" alt={`${make} ${model}`} src={vehiclePhotos} className="object-cover w-full h-full z-0" />
+
+
+
+
+
+
+          {/* image of the vehicle */}
+        
+          {/* <Image radius="none" alt={`${make} ${model}`} src={vehiclePhotos} className="object-cover w-full h-full z-0" /> */}
+
+
+          <AutoPlaySwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={activeStep}
+        onChangeIndex={handleStepChange}
+        enableMouseEvents
+      >
+        {vehiclePhotos.map((step, index) => (
+          <div key={step.label}>
+            {Math.abs(activeStep - index) <= 2 ? (
+              <Box
+                component="img"
+                sx={{
+                  height: 255,
+                  display: 'block',
+                  maxWidth: 400,
+                  overflow: 'hidden',
+                  width: '100%',
+                }}
+                
+                src={step}
+                alt={step.label}
+              />
+            ) : null}
+         
+          </div>
+        ))}
+      </AutoPlaySwipeableViews>
+
+
+
+
+
+
+
+
+
         </div>
+
+
+
+
+
+
+
+
+
         <div className="flex items-center justify-between px-4 pt-4">
           <h3 className="font-bold text-lg">{model}</h3>
           <div onClick={handleLike} className="text-xl text-blue-600 cursor-pointer">
@@ -166,3 +252,10 @@ VehicleCard.propTypes = {
   bids: PropTypes.array,
 };
 
+VehicleCard.defaultProps = {
+  isonListed: false,
+  isonMyBid: false,
+  MyBidAmount: 0,
+  bids: [],
+  vehiclePhotos: [], // Default value as an empty array
+};

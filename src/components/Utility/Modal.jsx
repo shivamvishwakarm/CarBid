@@ -102,7 +102,7 @@ const handleCloseAlert = (event, reason) => {
           You caught us! We'll available soon at your {city}. Stay tuned!
         </Alert>
       </Snackbar>
-          {/* Alert component with a message and an onClose handler */}
+    
     <NextModal className="fixed w-full insert-0 overflow-auto max-w-4xl"
       isOpen={isModalOpen} onClose={handleCloseModal}>
           {/* Modal content goes here */}
@@ -140,6 +140,7 @@ const handleCloseAlert = (event, reason) => {
                 Use Current Location
               </div>
             </button>
+            
           </div>
           {/* <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'> */}
           <h3 className='text-lg font-semibold mt-4'>Popular Cities</h3>

@@ -13,6 +13,8 @@ import SignIn from './Signin';
 
 const NavbarComponent = () => {
   const loggedIn = useSelector(state => state.auth.isLoggedIn);
+  // const loggedIn = false;
+
   console.log(loggedIn);
   const profilePic = useSelector(state => state.auth.data.profilePicURL);
   const city = useSelector(state => state.vehicle.city);
@@ -97,13 +99,13 @@ const NavbarComponent = () => {
                 <NavbarItem className="mx-2 border border-blue-700 rounded-md px-4 py-2 text-blue-700 hover:text-blue-500">
 
 
-                  <SignIn />
+                  <SignIn />  {/* Signin component and it's a modal */}
 
                 </NavbarItem>
                 <NavbarItem className="mx-2  rounded-md px-4 py-2 text-white bg-blue-700 hover:bg-blue-500">
 
 
-                  <SignUp /> {/* Signup component and it's modal */}
+                  <SignUp /> {/* Signup component and it's a modal */}
 
                 </NavbarItem>
               </>
