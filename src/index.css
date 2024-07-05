@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+body {
+  background-color: #FAFAFA; /* Change #f0f0f0 to your desired color */
+}
+
 nav > header {
     max-width: none !important; /* Remove the max-width restriction */
   }
