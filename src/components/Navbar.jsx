@@ -8,17 +8,24 @@ import Logo from './Utility/Logo'  // Logo component
 import { GoPersonFill } from "react-icons/go";
 import SignUp from './Signup';
 import SignIn from './Signin';
+import { useLocation } from 'react-router-dom'; // Step 1: Import useLocation
+
+
 
 
 
 const NavbarComponent = () => {
   const loggedIn = useSelector(state => state.auth.isLoggedIn);
   // const loggedIn = false;
+  const location = useLocation(); // Step 2: Use useLocation to get the current path
 
   console.log(loggedIn);
   const profilePic = useSelector(state => state.auth.data.profilePicURL);
   const city = useSelector(state => state.vehicle.city);
   const dispatch = useDispatch();
+
+  const checkIsActive = (href) => location.pathname === href;
+
 
   const handleLogout = () => {
     try {
@@ -38,7 +45,15 @@ const NavbarComponent = () => {
           "flex",
           "relative",
           "h-full",
-         
+          "items-center",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[2px]",
+          "data-[active=true]:after:rounded-[2px]",
+          "data-[active=true]:after:bg-primary",
         ],
       }} >
         <NavbarMenuToggle
@@ -57,16 +72,16 @@ const NavbarComponent = () => {
                 Buy
               </Link>
             </NavbarItem> */}
-            <NavbarItem isActive>
-              <Link className='mx-2' aria-current="page" href="/vehiclelist">
-                Buy
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link className="mx-2 " color="foreground" href="/sellvehicle">
-                Sell
-              </Link>
-            </NavbarItem>
+          <NavbarItem isActive={checkIsActive("/vehiclelist")}>
+  <Link className={`mx-2 ${checkIsActive("/vehiclelist") ? 'text-blue-600' : ''}`} color="foreground" href="/vehiclelist">
+    Buy
+  </Link>
+</NavbarItem>
+<NavbarItem isActive={checkIsActive("/sellvehicle")}>
+  <Link className={`mx-2 ${checkIsActive("/sellvehicle") ? 'text-blue-600' : ''}`} color="foreground" href="/sellvehicle">
+    Sell
+  </Link>
+</NavbarItem>
           </div>
           <NavbarContent className="flex items-center" />
           <div className="flex ">
