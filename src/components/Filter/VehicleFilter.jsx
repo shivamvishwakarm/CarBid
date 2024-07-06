@@ -9,23 +9,21 @@ const CarType = ({ filterCriteria, setFilterCriteria }) => {
     { label: "Bike", value: "bike" }
   ];
 
-  const handleCheckboxChange = (value, isChecked) => {
+  const handleRadioChange = (value) => {
+
     setFilterCriteria((prevCriteria) => {
       let updatedTypes;
-      if (isChecked) {
-        updatedTypes = [...(prevCriteria.vehicleType || []), value];
-      } else {
-        updatedTypes = (prevCriteria.vehicleType || []).filter(
-          (type) => type !== value
-        );
-      }
 
-      return {
+      updatedTypes = {
         ...prevCriteria,
-        vehicleType: updatedTypes
-      };
-    });
-  };
+        vehicleType:  value
+      }
+return updatedTypes
+
+
+
+    
+})};
 
   useEffect(() => {
     vehicleTypes.forEach((type) => {
@@ -35,15 +33,17 @@ const CarType = ({ filterCriteria, setFilterCriteria }) => {
   }, [filterCriteria]);
 
   return (
-    <RadioGroup className="flex flex-col">
+    <RadioGroup
+     className="flex flex-col"
+   
+
+     >
       {vehicleTypes.map((vehicleType) => (
         <Radio
-          key={vehicleType.value}
-          id={vehicleType.value}
-          // isSelected={filterCriteria.vehicleType?.includes(vehicleType.value) || false}
-          // onChange={(event) =>
-          //   handleCheckboxChange(vehicleType.value, event.target.checked)
-          // }
+         key={vehicleType.value}
+          value={vehicleType.value}
+        id={vehicleType.value}
+        onChange={(e) => handleRadioChange(e.target.value)}
         >
           {vehicleType.label}
         </Radio>
